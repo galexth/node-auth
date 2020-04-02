@@ -29,7 +29,7 @@ module.exports.register = wrap(async (req, res) => {
 
     // Check if the password and confirm password fields match
     if (password !== confirmPassword) {
-        res.render('register', {
+        return res.render('register', {
             message: 'Password does not match.',
             messageClass: 'alert-danger'
         });
@@ -38,11 +38,10 @@ module.exports.register = wrap(async (req, res) => {
     const exists = await user.exists({ email: email });
 
     if (exists === true) {
-        res.render('register', {
+        return res.render('register', {
             message: 'User already registered.',
             messageClass: 'alert-danger'
         });
-        return;
     }
 
     const hashedPassword = hash(password);
@@ -52,8 +51,16 @@ module.exports.register = wrap(async (req, res) => {
             firstName, lastName, email, password: hashedPassword
         });
     } catch (err) {
-        res.render('register', {
-            message: err,
+        var message = err.message;
+
+        if (err instanceof ValidationError) {
+            Object.keys(err.errors).forEach(function (key) {
+                message += `${err.errors[key].properties.path}: ${err.errors[key].message}\n`;
+            });
+        }
+
+        return res.render('register', {
+            message: message,
             messageClass: 'alert-danger'
         });
     }
