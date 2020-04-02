@@ -1,12 +1,13 @@
 #!/usr/bin/env node
-
 /**
  * module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('testauth:server');
-var http = require('http');
+require('dotenv').config()
+
+const app = require('../app');
+const debug = require('debug')('testauth:server');
+const http = require('http');
 
 const config = require('config');
 
@@ -16,7 +17,7 @@ const mongoose = require('mongoose');
  * get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || config.get('port'));
+const port = normalizePort(process.env.PORT || config.get('port'));
 
 app.set('port', port);
 
@@ -24,19 +25,15 @@ app.set('port', port);
  * create HTTP server.
  */
 
-var server = http.createServer(app);
+const server = http.createServer(app);
 
 /**
  * listen on provided port, on all network interfaces.
  */
 
-mongoose.connect(config.get('db.uri'), config.get('db.options'))
-    .then(() => {
-        server.listen(port, () => {
-            console.log(123);
-
-        });
-    });
+mongoose
+    .connect(config.get('db.uri'), config.get('db.options'))
+    .then(() => server.listen(port));
 
 server.on('error', onError);
 server.on('listening', onListening);
@@ -46,7 +43,7 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
 db.once('open', function () {
-    console.log('we\'re connected to Mongo!');
+    debug('Connected to DB!');
 });
 
 /**
@@ -54,16 +51,16 @@ db.once('open', function () {
  */
 
 function normalizePort (val) {
-    var port = parseInt(val, 10);
+    var normalizedPort = parseInt(val, 10);
 
-    if (isNaN(port)) {
-    // named pipe
+    if (isNaN(normalizedPort)) {
+        // named pipe
         return val;
     }
 
-    if (port >= 0) {
-    // port number
-        return port;
+    if (normalizedPort >= 0) {
+        // port number
+        return normalizedPort;
     }
 
     return false;

@@ -34,10 +34,7 @@ module.exports = {
             '1tbs'
         ],
         'callback-return': 'error',
-        'capitalized-comments': [
-            'error',
-            'never'
-        ],
+        'capitalized-comments': "off",
         'class-methods-use-this': 'error',
         'comma-dangle': 'error',
         'comma-spacing': [
@@ -114,7 +111,7 @@ module.exports = {
         'max-params': 'error',
         'max-statements': 'off',
         'max-statements-per-line': 'error',
-        'multiline-comment-style': 'error',
+        'multiline-comment-style': 'off',
         'multiline-ternary': 'error',
         'new-cap': 'error',
         'new-parens': 'error',
@@ -209,7 +206,8 @@ module.exports = {
         'no-underscore-dangle': 'error',
         'no-unmodified-loop-condition': 'error',
         'no-unneeded-ternary': 'error',
-        'no-unused-expressions': 'error',
+        'no-unused-expressions': 'warn',
+        'no-unused-vars': 'warn',
         'no-useless-call': 'error',
         'no-useless-computed-key': 'error',
         'no-useless-concat': 'error',
