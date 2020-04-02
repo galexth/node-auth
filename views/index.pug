@@ -1,5 +1,9 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  nav.navbar.navbar-expand-lg.navbar-light.bg-light
+    a.navbar-brand(href='#') Simple Authentication App
+  div(style='margin-top: 30px')
+    a.btn.btn-primary.btn-lg.active(href='/login') Login
+    a.btn.btn-primary.btn-lg.active(href='/register') Register
+

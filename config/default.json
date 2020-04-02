@@ -1,0 +1,11 @@
+{
+    "db": {
+        "uri": "mongodb+srv://app:BABi4sWuUfZHRuMI@cluster0-h7wkg.mongodb.net/testauth?retryWrites=true&w=majority",
+        "options": {
+            "useNewUrlParser": true,
+            "useCreateIndex": true,
+            "useFindAndModify": false,
+            "useUnifiedTopology": true
+        }
+    }
+}

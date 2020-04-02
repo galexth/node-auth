@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  .row.justify-content-md-center(style='margin-top: 30px')
+    .col-md-4
+      include includes/errors.pug
+      form(method='POST' action='/register')
+        .form-group
+          label(for='firstNameInput') First Name
+          input#firstNameInput.form-control(name='firstName' type='text')
+        .form-group
+          label(for='lastNameInput') Last Name
+          input#lastNameInput.form-control(name='lastName' type='text')
+        .form-group
+          label(for='emailInput') Email address
+          input#emailInput.form-control(name='email' type='email' placeholder='Enter email')
+        .form-group
+          label(for='passwordInput') Password
+          input#passwordInput.form-control(name='password' type='password' placeholder='Password')
+        .form-group
+          label(for='confirmPasswordInput') Confirm Password
+          input#confirmPasswordInput.form-control(name='confirmPassword' type='password' placeholder='Re-enter your password here')
+        button.btn.btn-primary(type='submit') Login
