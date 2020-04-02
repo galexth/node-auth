@@ -1,2 +1,5 @@
 if message
     .alert(class=messageClass role='alert') #{message}
+if errors
+    each val, index in errors
+        .alert(class=messageClass role='alert') #{index} #{val.msg}

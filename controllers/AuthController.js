@@ -1,8 +1,21 @@
 const { hash, wrap } = require('../support/helpers');
+const { check, validationResult } = require('express-validator')
 
 const user = require('../models/user');
 
 module.exports.login = wrap(async (req, res) => {
+
+    await check('email').isEmail().withMessage('should be a valid email').run(req);
+    await check('password').isLength({ min: 6 }).withMessage('should be at least 6 chars').run(req);
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.render('login', {
+            errors: errors.mapped(),
+            messageClass: 'alert-danger'
+        });
+    }
 
     const { email, password } = req.body;
     const hashedPassword = hash(password);
@@ -10,11 +23,10 @@ module.exports.login = wrap(async (req, res) => {
     const model = await user.findOne({ email: email, password: hashedPassword });
 
     if (!model) {
-        res.render('login', {
+        return res.render('login', {
             message: 'Invalid username or password',
             messageClass: 'alert-danger'
         });
-        return;
     }
 
     // req.session.auth_token = helpers.generateAuthToken();
@@ -27,10 +39,19 @@ module.exports.register = wrap(async (req, res) => {
 
     const { email, firstName, lastName, password, confirmPassword } = req.body;
 
-    // Check if the password and confirm password fields match
-    if (password !== confirmPassword) {
+    await check('email').isEmail().withMessage('should be a valid email').run(req);
+    await check('firstName').notEmpty().withMessage('is required').run(req);
+    await check('lastName').notEmpty().withMessage('is required').run(req);
+    await check('password')
+        .isLength({ min: 6 }).withMessage('should be at least 6 chars')
+        .equals(confirmPassword).withMessage('does not match its confirmation')
+        .run(req);
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
         return res.render('register', {
-            message: 'Password does not match.',
+            errors: errors.mapped(),
             messageClass: 'alert-danger'
         });
     }
