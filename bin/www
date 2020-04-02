@@ -8,16 +8,14 @@ require('dotenv').config()
 const app = require('../app');
 const debug = require('debug')('testauth:server');
 const http = require('http');
-
 const config = require('config');
-
 const mongoose = require('mongoose');
 
 /**
  * get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || config.get('port'));
+const port = normalizePort(config.util.getEnv('PORT') || config.get('port'));
 
 app.set('port', port);
 

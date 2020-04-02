@@ -108,11 +108,11 @@ module.exports = {
         'max-lines': 'error',
         'max-lines-per-function': 'off',
         'max-nested-callbacks': 'error',
-        'max-params': 'error',
+        'max-params': 'off',
         'max-statements': 'off',
         'max-statements-per-line': 'error',
         'multiline-comment-style': 'off',
-        'multiline-ternary': 'error',
+        'multiline-ternary': 'off',
         'new-cap': 'error',
         'new-parens': 'error',
         'newline-after-var': [

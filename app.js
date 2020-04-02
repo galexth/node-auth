@@ -14,7 +14,8 @@ var app = express();
 app.use(session({
     store: new FileStore({}),
     cookie: {
-        maxAge: 14 * 24 * 3600 * 1000 // 1 day
+        // 1 day
+        maxAge: 14 * 24 * 3600 * 1000
     },
     name: 'sid',
     secret: 'keyboard cat',
