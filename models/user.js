@@ -3,11 +3,11 @@ const mongoose = require('mongoose');
 const schema = new mongoose.Schema({
     firstName: {
         type: String,
-        required: true,
+        required: true
     },
     lastName: {
         type: String,
-        required: true,
+        required: true
     },
     email: {
         type: String,
@@ -17,18 +17,18 @@ const schema = new mongoose.Schema({
         unique: true,
         validate: {
             validator: function (v) {
-                return /^([\w-.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(v);
-            },
-        },
+                return (/^([\w-.]+@([\w-]+\.)+[\w-]{2,4})?$/).test(v);
+            }
+        }
     },
     password: {
         type: String,
-        required: true,
+        required: true
     }
 }, {
     timestamps: {
         createdAt: 'createdAt',
-        updatedAt: 'updatedAt',
+        updatedAt: 'updatedAt'
     }
 });
 

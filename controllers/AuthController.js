@@ -10,7 +10,7 @@ module.exports.login = wrap(async (req, res) => {
 
     const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
+    if (! errors.isEmpty()) {
         return res.render('login', {
             errors: errors.mapped(),
             messageClass: 'alert-danger'
@@ -22,7 +22,7 @@ module.exports.login = wrap(async (req, res) => {
 
     const model = await user.findOne({ email: email, password: hashedPassword });
 
-    if (!model) {
+    if (! model) {
         return res.render('login', {
             message: 'Invalid username or password',
             messageClass: 'alert-danger'
@@ -49,7 +49,7 @@ module.exports.register = wrap(async (req, res) => {
 
     const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
+    if (! errors.isEmpty()) {
         return res.render('register', {
             errors: errors.mapped(),
             messageClass: 'alert-danger'
@@ -68,7 +68,7 @@ module.exports.register = wrap(async (req, res) => {
     const hashedPassword = hash(password);
 
     try {
-        const model = await user.create({
+        await user.create({
             firstName, lastName, email, password: hashedPassword
         });
     } catch (err) {
@@ -85,7 +85,6 @@ module.exports.register = wrap(async (req, res) => {
             messageClass: 'alert-danger'
         });
     }
-
 
     res.render('login', {
         message: 'Registration Complete. Please login to continue.',
