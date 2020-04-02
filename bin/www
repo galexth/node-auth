@@ -10,6 +10,8 @@ var http = require('http');
 
 const config = require('config');
 
+const mongoose = require('mongoose');
+
 /**
  * get port from environment and store in Express.
  */
@@ -28,9 +30,24 @@ var server = http.createServer(app);
  * listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+mongoose.connect(config.get('db.uri'), config.get('db.options'))
+    .then(() => {
+        server.listen(port, () => {
+            console.log(123);
+
+        });
+    });
+
 server.on('error', onError);
 server.on('listening', onListening);
+
+const db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'connection error:'));
+
+db.once('open', function () {
+    console.log('we\'re connected to Mongo!');
+});
 
 /**
  * normalize a port into a number, string, or false.
