@@ -1,26 +1,26 @@
-var createError = require('http-errors');
-var express = require('express');
+const createError = require('http-errors');
+const express = require('express');
 const session = require('express-session');
-var FileStore = require('session-file-store')(session);
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+// const FileStore = require('session-file-store')(session);
+const MongoStore = require('connect-mongo')(session);
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const db = require('./database/db');
+const config = require('config');
 
-var app = express();
+const app = express();
 
 app.use(session({
-    store: new FileStore({}),
-    cookie: {
-        // 1 day
-        maxAge: 14 * 24 * 3600 * 1000
-    },
-    name: 'sid',
-    secret: 'keyboard cat',
-    resave: true,
-    saveUninitialized: true
+    store: new MongoStore({ mongooseConnection: db.connection }),
+    cookie: config.get('session.cookie'),
+    name: config.get('session.name'),
+    secret: config.get('session.secret'),
+    resave: config.get('session.resave'),
+    saveUninitialized: config.get('session.saveUninitialized')
 }));
 
 // view engine setup

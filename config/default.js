@@ -15,6 +15,15 @@ const config = {
             useFindAndModify: false,
             useUnifiedTopology: true
         }
+    },
+    session: {
+        cookie: {
+            maxAge: 14 * 24 * 3600 * 1000
+        },
+        name: 'sid',
+        secret: 'some secret',
+        resave: true,
+        saveUninitialized: true
     }
 }
 

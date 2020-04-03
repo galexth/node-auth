@@ -9,7 +9,7 @@ const app = require('../app');
 const debug = require('debug')('testauth:server');
 const http = require('http');
 const config = require('config');
-const mongoose = require('mongoose');
+const db = require('../database/db');
 
 /**
  * get port from environment and store in Express.
@@ -29,19 +29,16 @@ const server = http.createServer(app);
  * listen on provided port, on all network interfaces.
  */
 
-mongoose
-    .connect(config.get('db.uri'), config.get('db.options'))
-    .then(() => server.listen(port));
-
 server.on('error', onError);
 server.on('listening', onListening);
 
-const db = mongoose.connection;
+const conn = db.connection;
 
-db.on('error', console.error.bind(console, 'connection error:'));
+conn.on('error', console.error.bind(console, 'connection error:'));
 
-db.once('open', function () {
+conn.once('open', function () {
     debug('Connected to DB!');
+    server.listen(port);
 });
 
 /**
